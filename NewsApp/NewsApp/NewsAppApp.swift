@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct NewsAppApp: App {
+    
+    init() {
+        Configurator.shared.setup() // Настройка сервисов
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
