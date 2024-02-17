@@ -9,8 +9,8 @@ import SwiftUI
 
 final class LoadingViewModel: ObservableObject {
     @Injected var newsService: NewsServiceProtocol?
-    @Published var news: News?
     @Published var isFinishLoading: Bool = false
+    var news: News?
     
     func getNewsData() async throws -> News? {
         

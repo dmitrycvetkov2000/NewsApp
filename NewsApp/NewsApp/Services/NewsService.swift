@@ -26,7 +26,7 @@ final class NewsService: NewsServiceProtocol {
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            sleep(10)
+            //sleep(10)
             return try decoder.decode(News.self, from: data)
         } catch {
             throw APIError.invalidData
