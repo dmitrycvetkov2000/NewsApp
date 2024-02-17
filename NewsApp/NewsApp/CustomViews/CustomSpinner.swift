@@ -18,7 +18,10 @@ struct CustomSpinner: View {
                 .rotationEffect(.init(degrees: self.animate ? 360 : 0))
                 .animation(.linear(duration: 0.7).repeatForever(autoreverses: false), value:  self.animate)
         .onAppear {
-            self.animate.toggle()
+            DispatchQueue.main.async {
+                self.animate.toggle()
+            }
+            
         }
 
     }
