@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SegmentControl_Scroll: View {
-    @State var segmentIndex = 0
+    @Binding var segmentIndex: Int
     @State var framesForSegments: [CGRect] = Array<CGRect>(repeating: .zero, count: 20)
     
     var categories: [String] = []
@@ -18,14 +18,15 @@ struct SegmentControl_Scroll: View {
     var defaultItemFontColor = Color.black
     var backgroundOfSegmentControl = Color.gray
     
-    init(categories: [String], selectedItemColor: SwiftUI.Color = Color.gray.opacity(0.7), selectedItemFontColor: SwiftUI.Color = Color.brown, defaultItemColor: SwiftUI.Color = Color.gray, defaultItemFontColor: SwiftUI.Color = Color.black, backgroundOfSegmentControl: SwiftUI.Color = Color.gray.opacity(0.1)) {
+    init(categories: [String], selectedItemColor: SwiftUI.Color = Color.gray.opacity(0.7), selectedItemFontColor: SwiftUI.Color = Color.brown, defaultItemColor: SwiftUI.Color = Color.gray, defaultItemFontColor: SwiftUI.Color = Color.black, backgroundOfSegmentControl: SwiftUI.Color = Color.gray.opacity(0.1), segmentIndex: Binding<Int>) {
 
-        self.categories = categories
+        self.categories = categories.sorted()
         self.selectedItemColor = selectedItemColor
         self.selectedItemFontColor = selectedItemFontColor
         self.defaultItemColor = defaultItemColor
         self.defaultItemFontColor = defaultItemFontColor
         self.backgroundOfSegmentControl = backgroundOfSegmentControl
+        self._segmentIndex = segmentIndex
     }
     
     var body: some View {
@@ -68,8 +69,4 @@ struct SegmentControl_Scroll: View {
             self.framesForSegments[index] = frame
         }
     }
-}
-
-#Preview {
-    SegmentControl_Scroll(categories: ["One", "Two", "Three", "Thour", "Five", "Six"])
 }

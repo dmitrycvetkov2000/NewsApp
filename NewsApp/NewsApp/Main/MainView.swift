@@ -10,6 +10,8 @@ import SwiftUI
 struct MainView: View {
     var news: News?
     @StateObject private var viewModel = MainViewModel.init()
+    @State var segmentIndex = 0
+    @State var curCategory = ""
     
     var categories: [String] {
         var listOfCategories: Set<String> = []
@@ -22,20 +24,34 @@ struct MainView: View {
     }
     
     var body: some View {
+        let segmentControl = SegmentControl_Scroll(categories: categories, segmentIndex: $segmentIndex)
+        
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
-                SegmentControl_Scroll(categories: categories)
+                segmentControl
+                    .onAppear {
+                        curCategory = segmentControl.categories[segmentIndex]
+                    }
+                    .onChange(of: segmentIndex) {
+                        curCategory = segmentControl.categories[segmentIndex]
+                        print("curCategory = \(curCategory)")
+                    }
+
             }
             
             if let listNews = news?.results {
                 List(listNews, id: \.description) { item in
-                    
-                    NavigationLink(destination: MainDetailView(item: item)) {
-                        CustomCell(item: item)
+                    if let categoriesItem = item.category {
+                        if categoriesItem.contains(curCategory) {
+                            NavigationLink(destination: MainDetailView(item: item)) {
+                                CustomCell(item: item)
+                            }
+                        }
                     }
                 }
             }
         }
+        .toolbar(.hidden)
         Spacer()
     }
     
