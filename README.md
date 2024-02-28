@@ -4,7 +4,7 @@
 1) Loading
 2) Main
 3) Detail
-4) Settings(в разработке)
+4) Settings
 
 
 
