@@ -12,9 +12,8 @@ final class LoadingViewModel: ObservableObject {
     @Published var isFinishLoading: Bool = false
     var news: News?
     
-    func getNewsData() async throws -> News? {
-        
-        let news = try await newsService?.getNewsData()
+    func getNewsData(language: String) async throws -> News? {
+        let news = try await newsService?.getNewsData(language: language)
         DispatchQueue.main.async {
             self.isFinishLoading = true
         }

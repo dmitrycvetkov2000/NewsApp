@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    var news: News?
+    
     @StateObject private var viewModel = MainViewModel.init()
     @State var segmentIndex = 0
     @State var curCategory = ""
+    
+    var news: News?
     
     var categories: [String] {
         var listOfCategories: Set<String> = []
@@ -27,6 +29,13 @@ struct MainView: View {
         let segmentControl = SegmentControl_Scroll(categories: categories, segmentIndex: $segmentIndex)
         
         VStack {
+            HStack {
+                Spacer()
+                NavigationLink(destination: SettingsView.init()) {
+                    Image("settings", label: Text("")).resizable()
+                }.frame(width: 30, height: 30)
+            }.padding([.top, .trailing], 10)
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 segmentControl
                     .onAppear {
@@ -34,14 +43,13 @@ struct MainView: View {
                     }
                     .onChange(of: segmentIndex) {
                         curCategory = segmentControl.categories[segmentIndex]
-                        print("curCategory = \(curCategory)")
                     }
-
+                
             }
             
             if let listNews = news?.results {
-                List(listNews, id: \.description) { item in
-                    if let categoriesItem = item.category {
+                List(listNews, id: \.title) { item in
+                    if let _ = item.title, let categoriesItem = item.category {
                         if categoriesItem.contains(curCategory) {
                             NavigationLink(destination: MainDetailView(item: item)) {
                                 CustomCell(item: item)
@@ -52,6 +60,10 @@ struct MainView: View {
             }
         }
         .toolbar(.hidden)
+        .onDisappear {
+            curCategory = ""
+            segmentIndex = 0
+        }
         Spacer()
     }
     

@@ -8,14 +8,14 @@
 import Foundation
 
 protocol NewsServiceProtocol {
-    func getNewsData() async throws -> News
+    func getNewsData(language: String) async throws -> News
 }
 
 final class NewsService: NewsServiceProtocol {
     
-    func getNewsData() async throws -> News {
+    func getNewsData(language: String) async throws -> News {
         
-        let strURL = "https://newsdata.io/api/1/news?apikey=pub_139265749605a665e5fa1de2b12a689cbc510"
+        let strURL = "https://newsdata.io/api/1/news?apikey=pub_139265749605a665e5fa1de2b12a689cbc510&language=\(language)"
         
         guard let url = URL(string: strURL) else { throw APIError.invalidURL }
         
